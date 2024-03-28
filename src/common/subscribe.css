@@ -1,0 +1,10 @@
+.subs {
+  color: "white";
+  padding: "10px";
+  border-radius: "50%";
+  height: "50px";
+  width: "50px";
+  display: "inline-block";
+  border: "2px solid white";
+  background-image: "-webkit-linear-gradient(148deg, rgb(253, 85, 89) 0%,rgb(255, 51, 125) 100% )";
+}

@@ -1,0 +1,9 @@
+*,
+html {
+  scroll-behavior: smooth !important;
+}
+
+.headerTitle {
+  font-size: "20px";
+  font-weight: "bold";
+}
