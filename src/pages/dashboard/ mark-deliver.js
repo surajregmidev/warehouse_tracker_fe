@@ -21,7 +21,7 @@ const MarkDeliver = ({ id, open, setOpen, fetAgain, setfetAgain }) => {
 
   const onDelete = async (values) => {
     axiosPrivate
-      .delete(`/item/${id}`)
+      .post(`/bill/${id}`)
       .then(async (response) => {
         setOpen(false);
         setfetAgain(fetAgain + 1);
