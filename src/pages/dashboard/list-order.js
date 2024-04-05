@@ -67,6 +67,12 @@ const ListOrders = () => {
       render: (text) => text,
     },
     {
+      title: "Order Status",
+      dataIndex: "orderstatus",
+      key: "orderstatus",
+      render: (text) => text,
+    },
+    {
       title: "Notes",
       dataIndex: "note",
       key: "note",
