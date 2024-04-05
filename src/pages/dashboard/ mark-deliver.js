@@ -25,10 +25,10 @@ const MarkDeliver = ({ id, open, setOpen, fetAgain, setfetAgain }) => {
       .then(async (response) => {
         setOpen(false);
         setfetAgain(fetAgain + 1);
-        message.success("Item Deleted Successfully");
+        message.success("Order Marked as Deliverd Successfully");
       })
       .catch(() => {
-        message.error("Error in Deleting");
+        message.error("Error in Marking as Delivered");
       })
       .finally(() => {
         setOpen(false);
