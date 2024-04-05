@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Space, Table, Button, Input, Row, Col } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import MarkDeliver from "./ mark-deliver";
 
 const ListSales = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -10,6 +11,7 @@ const ListSales = () => {
 
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [fetAgain, setfetAgain] = useState(1);
+  const [selectedId, setSelectedId] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
@@ -78,6 +80,34 @@ const ListSales = () => {
       key: "note",
       render: (text) => text,
     },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <Space size="middle">
+          <ul className="view_edit_delete_list mb0">
+            <li
+              className="list-inline-item"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Edit"
+            >
+              <Button
+                type="link"
+                danger
+                size="large"
+                onClick={() => {
+                  setSelectedId(record.id);
+                  setDeleteModalOpen(true);
+                }}
+              >
+                <span className="flaticon-edit"></span>
+              </Button>
+            </li>
+          </ul>
+        </Space>
+      ),
+    },
   ];
   return (
     <section
@@ -113,6 +143,13 @@ const ListSales = () => {
                       columns={columns}
                       dataSource={projects}
                     />
+                    <MarkDeliver
+                      id={selectedId}
+                      open={deleteModalOpen}
+                      setOpen={setDeleteModalOpen}
+                      setfetAgain={setfetAgain}
+                      fetAgain={fetAgain}
+                    ></MarkDeliver>
                   </Space>
                 </div>
               </div>
