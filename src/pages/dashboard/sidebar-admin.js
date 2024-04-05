@@ -139,8 +139,13 @@ const SidebarAdmin = () => {
               <span>Manage Orders</span>
             </li>
             <li>
+              <a href="/purchasebill">
+                <i className="flaticon-home"></i> <span>Add Order</span>
+              </a>
+            </li>
+            <li>
               <a href="/orders">
-                <i className="flaticon-home"></i> <span>View Orders</span>
+                <i className="flaticon-home"></i> <span>View All Orders</span>
               </a>
             </li>
             <li>

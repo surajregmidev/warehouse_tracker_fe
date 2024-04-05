@@ -21,6 +21,8 @@ import PrivacyPolicy from "./pages/ten-things/privacy-policy";
 import AboutUs from "./pages/ten-things/about-us";
 import AddEmployee from "./pages/dashboard/add-employee";
 import ListEmployee from "./pages/dashboard/list-employee";
+import PurchaseBillCreate from "./pages/dashboard/purchase_bill_create";
+import ListOrders from "./pages/dashboard/list-order";
 
 function App() {
   // return <HomePage></HomePage>;
@@ -46,6 +48,11 @@ function App() {
                   <Route path="/employee" element={<ListEmployee />}></Route>
                   <Route path="/addemployee" element={<AddEmployee />}></Route>
                   <Route path="/summary" element={<Summary />}></Route>
+                  <Route
+                    path="/purchasebill"
+                    element={<PurchaseBillCreate />}
+                  ></Route>
+                  <Route path="/orders" element={<ListOrders />}></Route>
                   <Route
                     path="/item/edit/:id"
                     element={<EditProject />}
