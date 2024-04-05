@@ -23,6 +23,7 @@ import AddEmployee from "./pages/dashboard/add-employee";
 import ListEmployee from "./pages/dashboard/list-employee";
 import PurchaseBillCreate from "./pages/dashboard/purchase_bill_create";
 import ListOrders from "./pages/dashboard/list-order";
+import ListSales from "./pages/dashboard/list-sales";
 
 function App() {
   // return <HomePage></HomePage>;
@@ -53,6 +54,7 @@ function App() {
                     element={<PurchaseBillCreate />}
                   ></Route>
                   <Route path="/orders" element={<ListOrders />}></Route>
+                  <Route path="/sales" element={<ListSales />}></Route>
                   <Route
                     path="/item/edit/:id"
                     element={<EditProject />}
