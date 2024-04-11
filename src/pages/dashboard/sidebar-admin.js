@@ -119,7 +119,7 @@ const SidebarAdmin = () => {
           <ul className="sidebar-menu">
             <li className="header">
               <img
-                src="/images/logo/w.png"
+                src="/images/logo/g.png"
                 alt="header-logo2.png"
                 height="30px"
                 width="30px"
@@ -146,6 +146,45 @@ const SidebarAdmin = () => {
             <li>
               <a href="/orders">
                 <i className="flaticon-home"></i> <span>View All Orders</span>
+              </a>
+            </li>
+            <li>
+              <li className="title">
+                <Button danger onClick={logout}>
+                  <i className="flaticon-logout"></i> <span>Logout</span>
+                </Button>
+              </li>
+            </li>
+          </ul>
+        </div>
+      )}
+      {auth.user.role === "MNTNANCEPERSON" && (
+        <div className="dashboard_sidebar_menu dn-992">
+          <ul className="sidebar-menu">
+            <li className="header">
+              <img
+                src="/images/logo/g.png"
+                alt="header-logo2.png"
+                height="30px"
+                width="30px"
+              ></img>{" "}
+              WareHouseTracker
+            </li>
+            <li className="title">
+              <span>Main</span>
+            </li>
+            <li className="treeview">
+              <a href="/summary">
+                <i className="flaticon-layers"></i>
+                <span> Dashboard</span>
+              </a>
+            </li>
+            <li className="title">
+              <span>Manage Items</span>
+            </li>
+            <li>
+              <a href="/itememp">
+                <i className="flaticon-home"></i> <span>View All Items</span>
               </a>
             </li>
             <li>

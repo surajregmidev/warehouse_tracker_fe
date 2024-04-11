@@ -1,19 +1,20 @@
 import { useState, useEffect } from "react";
 import { Space, Table, Button, Input, Row, Col } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { axiosPrivate } from "../../api/axios";
+import DeleteProject from "./delete-project";
 
-const ListOrders = () => {
-  const axiosPrivate = useAxiosPrivate();
+const ListItem = () => {
   const [loadingState, setLoadingState] = useState(true);
   const [projects, setProjects] = useState([]);
 
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState(0);
   const [fetAgain, setfetAgain] = useState(1);
 
   useEffect(() => {
     async function fetchData() {
-      const response = await axiosPrivate.get("/bill");
+      const response = await axiosPrivate.get("/item");
       const projectsData = response.data.data.map((d) => ({
         ...d,
         key: d.id,
@@ -28,7 +29,7 @@ const ListOrders = () => {
     const searchKey = e.target.value;
     setLoadingState(true);
     if (e.target.value === "") {
-      const response = await axiosPrivate.get("/bill");
+      const response = await axiosPrivate.get("/item");
       const projectsData = response.data.data.map((d) => ({
         ...d,
         key: d.id,
@@ -36,7 +37,7 @@ const ListOrders = () => {
       setProjects(projectsData);
       setLoadingState(false);
     } else {
-      const url = "/bill?searchKey=" + searchKey;
+      const url = "/item?searchKey=" + searchKey;
       const response = await axiosPrivate.get(url);
       const projectsData = response.data.data.map((d) => ({
         ...d,
@@ -49,34 +50,90 @@ const ListOrders = () => {
 
   const columns = [
     {
-      title: "Date Of Order",
-      dataIndex: "dateoforder",
-      key: "dateoforder",
+      title: "Item",
+      dataIndex: "nameSlug",
+      key: "nameSlug",
+      render: (_, record) => (
+        <>
+          <th scope="row">
+            <div className="feat_property list favorite_page style2">
+              <div className="details" style={{ width: "200px" }}>
+                <div className="tc_content">
+                  <h4>{record.name}</h4>
+                  <small>Cost Price :</small>
+                  {(+record.costprice).toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                    minimumFractionDigits: 0,
+                  })}
+                  <br></br>
+                  <small>Sale Price: </small>
+                  {(+record.sellingprice).toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                    minimumFractionDigits: 0,
+                  })}
+                </div>
+              </div>
+            </div>
+          </th>
+        </>
+      ),
+    },
+    {
+      title: "Code",
+      dataIndex: "code",
+      key: "code",
       render: (text) => text,
     },
     {
-      title: "Total Price",
-      dataIndex: "totalPrice",
-      key: "totalPrice",
+      title: "Quantity",
+      dataIndex: "quantity",
+      key: "quantity",
       render: (text) => text,
     },
     {
-      title: "Shipping Address",
-      dataIndex: "shippingaddress",
-      key: "shippingaddress",
+      title: "Stored At",
+      dataIndex: "storinglocation",
+      key: "storinglocation",
       render: (text) => text,
     },
     {
-      title: "Order Status",
-      dataIndex: "orderstatus",
-      key: "orderstatus",
+      title: "Updated At",
+      dataIndex: "updatedAt",
+      key: "updatedAt",
       render: (text) => text,
     },
+
     {
-      title: "Notes",
-      dataIndex: "note",
-      key: "note",
-      render: (text) => text,
+      title: "Report Defect",
+      key: "action",
+      render: (_, record) => (
+        <Space size="middle">
+          <ul className="view_edit_delete_list mb0">
+            <li
+              className="list-inline-item"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Edit"
+            >
+              <a href={`itemdefect/edit/${record.id}`}>
+                <Button
+                  type="link"
+                  primary
+                  size="large"
+                  // onClick={() => {
+                  //   setSelectedDeveloper(record);
+                  //   setEditModalOpen(true);
+                  // }}
+                >
+                  <span className="flaticon-edit"></span>
+                </Button>
+              </a>
+            </li>
+          </ul>
+        </Space>
+      ),
     },
   ];
   return (
@@ -92,17 +149,10 @@ const ListOrders = () => {
               <div className="col-xl-12">
                 <div className="application_statics">
                   <div style={{ textAlign: "center" }}>
-                    <h4>Orders</h4>
+                    <h4>Manage Items</h4>
                   </div>
                   <Space direction="vertical" style={{ width: "100%" }}>
                     <Row justify="space-between">
-                      <Col>
-                        <div classNameName="add_new_dev">
-                          <a href="/purchasebill">
-                            <Button type="primary">Add New Order</Button>
-                          </a>
-                        </div>
-                      </Col>
                       <Col>
                         <div classNameName="search_in_datatable">
                           <Input
@@ -120,6 +170,13 @@ const ListOrders = () => {
                       columns={columns}
                       dataSource={projects}
                     />
+                    <DeleteProject
+                      id={selectedId}
+                      open={deleteModalOpen}
+                      setOpen={setDeleteModalOpen}
+                      setfetAgain={setfetAgain}
+                      fetAgain={fetAgain}
+                    ></DeleteProject>
                   </Space>
                 </div>
               </div>
@@ -137,4 +194,4 @@ const ListOrders = () => {
     </section>
   );
 };
-export default ListOrders;
+export default ListItem;

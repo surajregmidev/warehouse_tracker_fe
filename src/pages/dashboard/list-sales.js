@@ -38,7 +38,7 @@ const ListSales = () => {
       setProjects(projectsData);
       setLoadingState(false);
     } else {
-      const url = "/billl?searchKey=" + searchKey;
+      const url = "/bill?searchKey=" + searchKey;
       const response = await axiosPrivate.get(url);
       const projectsData = response.data.data.map((d) => ({
         ...d,

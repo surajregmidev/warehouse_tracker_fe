@@ -1,17 +1,26 @@
+import { useState, useEffect } from "react";
+
 import { Button, Input, Form, message } from "antd";
 
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useNavigate } from "react-router-dom";
+import Webcam from "react-webcam";
 
 const AddItem = () => {
+  const [showCam, setShowCam] = useState(false);
+  const videoConstraints = {
+    width: 1280,
+    height: 720,
+    facingMode: "user",
+  };
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
 
   const onFinish = async (values) => {
-    await createcar(values.item);
+    await createItem(values.item);
   };
 
-  const createcar = async (item) => {
+  const createItem = async (item) => {
     axiosPrivate
       .post("/item", {
         name: item.name,
@@ -33,59 +42,68 @@ const AddItem = () => {
     console.log("Failed:", errorInfo);
   };
   return (
-    <Form
-      name="basic"
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      autoComplete="off"
-    >
-      <section
-        className="our-dashbord dashbord bgc-f7 pb50"
-        style={{ marginLeft: "50px" }}
+    <>
+      <Form
+        name="basic"
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
       >
-        <div className="container-fluid ovh">
-          <div className="row">
-            <div className="col-lg-3 col-xl-2 dn-992 pl0"></div>
-            <div className="col-lg-9 col-xl-10 maxw100flex-992">
-              <div className="row">
-                <div className="col-lg-12 mb10">
-                  <div className="breadcrumb_content style2">
-                    <h2 className="breadcrumb_title">Add New Item</h2>
-                    <p>We are glad to see you again!</p>
+        <section
+          className="our-dashbord dashbord bgc-f7 pb50"
+          style={{ marginLeft: "50px" }}
+        >
+          <div className="container-fluid ovh">
+            <div className="row">
+              <div className="col-lg-3 col-xl-2 dn-992 pl0"></div>
+              <div className="col-lg-9 col-xl-10 maxw100flex-992">
+                <div className="row">
+                  <div className="col-lg-12 mb10">
+                    <div className="breadcrumb_content style2">
+                      <h2 className="breadcrumb_title">Add New Item</h2>
+                      <p>We are glad to see you again!</p>
+                    </div>
                   </div>
-                </div>
-                <div className="col-lg-12">
-                  <div className="my_dashboard_review">
-                    <div className="row">
-                      <div className="col-lg-12">
-                        <h4 className="mb30">Create Item</h4>
-                        <div className="my_profile_setting_input form-group">
-                          <label htmlFor="propertyTitle">Item Name</label>
-                          <Form.Item
-                            name={["item", "name"]}
-                            rules={[
-                              {
-                                required: true,
-                                message: "Please input your item name!",
-                              },
-                            ]}
-                          >
-                            <Input size="large" />
-                          </Form.Item>
-                        </div>
-                      </div>
-
-                      <div className="col-lg-12">
-                        <div className="my_profile_setting_input ui_kit_select_search form-group">
-                          <label>Code </label>
+                  <div className="col-lg-12">
+                    <div className="my_dashboard_review">
+                      <div className="row">
+                        <div className="col-lg-12">
+                          <h4 className="mb30">Create Item</h4>
+                          <div classNameName="add_new_dev">
+                            <Button
+                              type="primary"
+                              onClick={() => setShowCam(true)}
+                            >
+                              Scan Item
+                            </Button>{" "}
+                            {showCam && (
+                              <Button danger onClick={() => setShowCam(false)}>
+                                Cancel
+                              </Button>
+                            )}
+                            <div>
+                              {showCam && (
+                                <Webcam
+                                  audio={false}
+                                  height={300}
+                                  screenshotFormat="image/jpeg"
+                                  width={300}
+                                  videoConstraints={videoConstraints}
+                                ></Webcam>
+                              )}
+                            </div>
+                          </div>
                           <br></br>
-                          <div>
+                          <div>OR Enter Manually</div>
+                          <br></br>
+                          <div className="my_profile_setting_input form-group">
+                            <label htmlFor="propertyTitle">Item Name</label>
                             <Form.Item
-                              name={["item", "code"]}
+                              name={["item", "name"]}
                               rules={[
                                 {
                                   required: true,
-                                  message: "Code is required!",
+                                  message: "Please input your item name!",
                                 },
                               ]}
                             >
@@ -93,18 +111,57 @@ const AddItem = () => {
                             </Form.Item>
                           </div>
                         </div>
-                      </div>
-                      <div className="col-lg-12">
-                        <div className="my_profile_setting_input ui_kit_select_search form-group">
-                          <label>Quantity</label>
-                          <br></br>
-                          <div>
+
+                        <div className="col-lg-12">
+                          <div className="my_profile_setting_input ui_kit_select_search form-group">
+                            <label>Code </label>
+                            <br></br>
+                            <div>
+                              <Form.Item
+                                name={["item", "code"]}
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: "Code is required!",
+                                  },
+                                ]}
+                              >
+                                <Input size="large" />
+                              </Form.Item>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-lg-12">
+                          <div className="my_profile_setting_input ui_kit_select_search form-group">
+                            <label>Quantity</label>
+                            <br></br>
+                            <div>
+                              <Form.Item
+                                name={["item", "quantity"]}
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: "Quantity is required!",
+                                  },
+                                ]}
+                              >
+                                <Input size="large" />
+                              </Form.Item>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="col-lg-6 col-xl-6">
+                          <div className="my_profile_setting_input form-group">
+                            <label htmlFor="formGroupExamplePrice">
+                              Cost Price
+                            </label>
                             <Form.Item
-                              name={["item", "quantity"]}
+                              name={["item", "costprice"]}
                               rules={[
                                 {
                                   required: true,
-                                  message: "Quantity is required!",
+                                  message: "costprice  is required!",
                                 },
                               ]}
                             >
@@ -112,83 +169,64 @@ const AddItem = () => {
                             </Form.Item>
                           </div>
                         </div>
-                      </div>
-
-                      <div className="col-lg-6 col-xl-6">
-                        <div className="my_profile_setting_input form-group">
-                          <label htmlFor="formGroupExamplePrice">
-                            Cost Price
-                          </label>
-                          <Form.Item
-                            name={["item", "costprice"]}
-                            rules={[
-                              {
-                                required: true,
-                                message: "costprice  is required!",
-                              },
-                            ]}
-                          >
-                            <Input size="large" />
+                        <div className="col-lg-6 col-xl-6">
+                          <div className="my_profile_setting_input form-group">
+                            <label htmlFor="formGroupExampleArea">
+                              Selling Price
+                            </label>
+                            <Form.Item
+                              name={["item", "sellingprice"]}
+                              rules={[
+                                {
+                                  required: true,
+                                  message: "sellingprice  is required!",
+                                },
+                              ]}
+                            >
+                              <Input size="large" />
+                            </Form.Item>
+                          </div>
+                        </div>
+                        <div className="col-lg-6 col-xl-6">
+                          <div className="my_profile_setting_input ui_kit_select_search form-group">
+                            <label>Storing Location</label>
+                            <Form.Item
+                              name={["item", "storinglocation"]}
+                              rules={[
+                                {
+                                  required: true,
+                                  message: "Pick up location  is required!",
+                                },
+                              ]}
+                            >
+                              <Input size="large" />
+                            </Form.Item>
+                          </div>
+                        </div>
+                        <div className="col-lg-12">
+                          <Form.Item>
+                            <Button type="primary" htmlType="submit">
+                              Submit
+                            </Button>
                           </Form.Item>
                         </div>
-                      </div>
-                      <div className="col-lg-6 col-xl-6">
-                        <div className="my_profile_setting_input form-group">
-                          <label htmlFor="formGroupExampleArea">
-                            Selling Price
-                          </label>
-                          <Form.Item
-                            name={["item", "sellingprice"]}
-                            rules={[
-                              {
-                                required: true,
-                                message: "sellingprice  is required!",
-                              },
-                            ]}
-                          >
-                            <Input size="large" />
-                          </Form.Item>
-                        </div>
-                      </div>
-                      <div className="col-lg-6 col-xl-6">
-                        <div className="my_profile_setting_input ui_kit_select_search form-group">
-                          <label>Storing Location</label>
-                          <Form.Item
-                            name={["item", "storinglocation"]}
-                            rules={[
-                              {
-                                required: true,
-                                message: "Pick up location  is required!",
-                              },
-                            ]}
-                          >
-                            <Input size="large" />
-                          </Form.Item>
-                        </div>
-                      </div>
-                      <div className="col-lg-12">
-                        <Form.Item>
-                          <Button type="primary" htmlType="submit">
-                            Submit
-                          </Button>
-                        </Form.Item>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="row mt50">
-                <div className="col-lg-12">
-                  <div className="copyright-widget text-center">
-                    <p>© 2024 WareHouse App tracker. Made with love.</p>
+                <div className="row mt50">
+                  <div className="col-lg-12">
+                    <div className="copyright-widget text-center">
+                      <p>© 2024 WareHouse App tracker. Made with love.</p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-    </Form>
+        </section>
+      </Form>
+    </>
   );
 };
 export default AddItem;

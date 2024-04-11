@@ -24,6 +24,8 @@ import ListEmployee from "./pages/dashboard/list-employee";
 import PurchaseBillCreate from "./pages/dashboard/purchase_bill_create";
 import ListOrders from "./pages/dashboard/list-order";
 import ListSales from "./pages/dashboard/list-sales";
+import ListItem from "./pages/dashboard/list-item";
+import EditItemDefect from "./pages/dashboard/edit-item-defect";
 
 function App() {
   // return <HomePage></HomePage>;
@@ -45,6 +47,7 @@ function App() {
               <Route element={<RequireAuth />}>
                 <Route element={<Dashboard />}>
                   <Route path="/item" element={<ListProject />}></Route>
+                  <Route path="/itememp" element={<ListItem />}></Route>
                   <Route path="/additem" element={<AddProject />}></Route>
                   <Route path="/employee" element={<ListEmployee />}></Route>
                   <Route path="/addemployee" element={<AddEmployee />}></Route>
@@ -58,6 +61,10 @@ function App() {
                   <Route
                     path="/item/edit/:id"
                     element={<EditProject />}
+                  ></Route>
+                  <Route
+                    path="/itemdefect/edit/:id"
+                    element={<EditItemDefect />}
                   ></Route>
                 </Route>
               </Route>

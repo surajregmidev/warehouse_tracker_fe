@@ -57,7 +57,7 @@ function SalesBillCreate({ items }) {
     // send purchase request
     axiosPrivate
       .post("/bill", {
-        billtype: "PURCHASE",
+        billtype: "SALE",
         customername: customer.customername,
         shippingaddress: customer.shippingaddress,
         dateoforder: customer.dateoforder,

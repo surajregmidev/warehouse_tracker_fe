@@ -1,4 +1,5 @@
-import { Button, Input, Form, message } from "antd";
+import React, { useState } from "react";
+import { Button, Input, Form, message, Select } from "antd";
 
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useNavigate } from "react-router-dom";
@@ -6,9 +7,18 @@ import { useNavigate } from "react-router-dom";
 const AddEmployee = () => {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
+  const [empType, setEmpType] = useState("EMPLOYEE");
 
   const onFinish = async (values) => {
     await createEmployee(values.employee);
+  };
+
+  const onSelectDropDown = async (value) => {
+    setEmpType(value);
+  };
+
+  const handleEmployeeChange = async (value) => {
+    setEmpType(empType);
   };
 
   const createEmployee = async (employee) => {
@@ -17,6 +27,7 @@ const AddEmployee = () => {
         fullName: employee.fullName,
         email: employee.email,
         password: "tracker123",
+        role: empType === "MNTNANCEPERSON" ? "MNTNANCEPERSON" : "EMPLOYEE",
       })
       .then((response) => {
         message.success("Employee Added Successfully");
@@ -88,6 +99,38 @@ const AddEmployee = () => {
                             >
                               <Input size="large" />
                             </Form.Item>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-lg-6">
+                        <div className="my_profile_setting_input ui_kit_select_search form-group">
+                          <label>Type</label>
+                          <br></br>
+                          <div>
+                            <Select
+                              defaultValue="EMPLOYEE"
+                              onChange={onSelectDropDown}
+                              style={{ width: 400 }}
+                              options={[
+                                { value: "EMPLOYEE", label: "EMPLOYEE" },
+                                {
+                                  value: "MNTNANCEPERSON",
+                                  label: "MAINTENANCE PERSON",
+                                },
+                                {
+                                  value: "EMPLOYEE1",
+                                  label: "LOGISTIC PERSONNEL",
+                                },
+                                {
+                                  value: "EMPLOYEE2",
+                                  label: "SALES REPRESENTATIVE",
+                                },
+                                {
+                                  value: "EMPLOYEE3",
+                                  label: "PROJECT TEAM HEAD",
+                                },
+                              ]}
+                            />
                           </div>
                         </div>
                       </div>
